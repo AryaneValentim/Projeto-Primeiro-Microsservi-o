@@ -1,6 +1,6 @@
 package br.com.nava.controllers;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.nava.dtos.ProfessorDTO;
-import br.com.nava.entities.ProfessorEntity;
+
 import br.com.nava.services.ProfessorService;
 
 @RestController
 @RequestMapping("professores")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProfessorController {
 
 //	private ArrayList<ProfessorEntity> listaProfessor = new ArrayList<>();
