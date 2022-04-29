@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.nava.dtos.ProfessorDTO;
+import br.com.nava.entities.ProfessorEntity;
+import br.com.nava.services.ProfessorService;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -33,6 +35,9 @@ public class ProfessorControllerTests {
 	// responsável por criar as requisições REST para a camada de Controller
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@Autowired
+	private ProfessorService professorService;
 	
 	@Test
 	void getAllTest() throws Exception {
@@ -158,9 +163,14 @@ public class ProfessorControllerTests {
 	
 	@Test
 	void deleteTest() throws Exception {
+		
+		// primeiro vamos inserir um registro
+		ProfessorEntity obj = this.createValidProfessor();		
+		ProfessorDTO dto = this.professorService.save(obj);
+				
 		// para enviar a requisição
 		ResultActions response = mockMvc.perform(
-				delete("/professores/110")				
+				delete("/professores/" + dto.getId())				
 				.contentType("application/json")
 			);
 
@@ -168,6 +178,21 @@ public class ProfessorControllerTests {
 		MvcResult result = response.andReturn();
 		
 		assertThat( result.getResponse().getStatus() ).isEqualTo( 200 );
+	}
+	
+	private ProfessorEntity createValidProfessor() {
+		
+		// instanciando o novo objeto do tipo ProfessorEntity
+		ProfessorEntity professorEntidade = new ProfessorEntity();
+		
+		// colocando valores nos atributos de ProfessorEntity
+		professorEntidade.setCep("04567895");
+		professorEntidade.setNome("Professor Teste");
+		professorEntidade.setNumero(3);
+		professorEntidade.setRua("Rua de Teste");		
+		
+		// retornando este novo objeto criado
+		return professorEntidade;
 	}
 	
 }
